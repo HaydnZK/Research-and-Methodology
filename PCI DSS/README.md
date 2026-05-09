@@ -151,13 +151,12 @@ In today's threat landscape for payment security, we've shifted from simple data
 - **Sophisticated Phishing**: Social engineering has now evolved into Quishing (QR code phishing) and highly targeted AI-generated messages; these are much more difficult for employees to detect. 
 
 2. **How PCI DSS v4.0.1 Counters These Threats**
-
-| Modern Threat | New Mandatory Control in v4.0.1 |
-| :--- | :--- | 
-| E-Skimming | Requirement 11.6.1: Mandates mechanisms to detect unauthorized changes to payment page headers and script content. | 
-| Credential Theft | Requirement 8: Mandates MFA for *all* access into the CDE, including local console access. | 
-| Phishing | Requirement 12.6: Updated security awareness training must specifically include phishing and social engineering protection. |
-| Software Flaws | Requirement 11.3.1.2: Mandates authenticated internal vulnerability scans for deeper visibility into hidden system weaknesses. |
+| Modern Threat | New Mandatory Control in v4.0.1 | Description |
+| :--- | :--- | :--- |
+| E-Skimming | Requirement 11.6.1 | Mandates mechanisms to detect unauthorized changes to payment page headers and script content. | 
+| Credential Theft | Requirement 8 | Mandates MFA for *all* access into the CDE, including local console access. | 
+| Phishing | Requirement 12.6 | Updated security awareness training must specifically include phishing and social engineering protection. |
+| Software Flaws | Requirement 11.3.1.2 | Mandates authenticated internal vulnerability scans for deeper visibility into hidden system weaknesses. |
 
 ### Ongoing Threats: Threat Actors, Malware, and More
 Despite all of this, there are several highly active groups and malware strains that specifically target PCI and cardholder data in 2026. These typically exploit the fact that many organizations fail to maintain compliance between annual audits. 
