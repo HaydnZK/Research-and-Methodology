@@ -150,7 +150,7 @@ In today's threat landscape for payment security, we've shifted from simple data
 - **Sophisticated Phishing**: Social engineering has now evolved into Quishing (QR code phishing) and highly targeted AI-generated messages; these are much more difficult for employees to detect. 
 
 2. **How PCI DSS v4.0.1 Counters These Threats**
-PCI DSS v4.0.1 covers these specific threats in a few key requirements. 
+
 | Modern Threat | New Mandatory Control in v4.0.1 | Description |
 | :--- | :--- | :--- |
 | E-Skimming | Requirement 11.6.1 | Mandates mechanisms to detect unauthorized changes to payment page headers and script content. |
