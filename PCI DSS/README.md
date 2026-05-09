@@ -131,7 +131,6 @@ This majorly impacts an organization's SOC by shifting the focus from general se
 - **Scope Difference**: A SOC 2 report covers the entire service organization, while PCI DSS is specifically focused on systems that touch payment card data. 
 
 ### Summary of SOC Impact
-
 | Feature | Traditional SOC Focus | PCI-Compliant SOC Focus |
 | :--- | :--- | :--- |
 | Log Retention | ~30-90 days | 1 year minimum (3 months immediate) |
@@ -153,8 +152,8 @@ In today's threat landscape for payment security, we've shifted from simple data
 2. **How PCI DSS v4.0.1 Counters These Threats**
 | Modern Threat | New Mandatory Control in v4.0.1 | Description |
 | :--- | :--- | :--- |
-| E-Skimming | Requirement 11.6.1 | Mandates mechanisms to detect unauthorized changes to payment page headers and script content. | 
-| Credential Theft | Requirement 8 | Mandates MFA for *all* access into the CDE, including local console access. | 
+| E-Skimming | Requirement 11.6.1 | Mandates mechanisms to detect unauthorized changes to payment page headers and script content. |
+| Credential Theft | Requirement 8 | Mandates MFA for all access into the CDE, including local console access. |
 | Phishing | Requirement 12.6 | Updated security awareness training must specifically include phishing and social engineering protection. |
 | Software Flaws | Requirement 11.3.1.2 | Mandates authenticated internal vulnerability scans for deeper visibility into hidden system weaknesses. |
 
