@@ -131,6 +131,7 @@ This majorly impacts an organization's SOC by shifting the focus from general se
 - **Scope Difference**: A SOC 2 report covers the entire service organization, while PCI DSS is specifically focused on systems that touch payment card data. 
 
 ### Summary of SOC Impact
+
 | Feature | Traditional SOC Focus | PCI-Compliant SOC Focus |
 | :--- | :--- | :--- |
 | Log Retention | ~30-90 days | 1 year minimum (3 months immediate) |
