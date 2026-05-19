@@ -1300,5 +1300,3 @@ sessions -i 1
 # Drop into a native OS shell on the target system
 shell
 ```
-
-)
