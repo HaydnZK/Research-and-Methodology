@@ -638,7 +638,7 @@ Every DNS record stored on a nameserver exists as a Resource Record (RR). Regard
 
 
 ### Exfiltration via Port 53: Spotting DNS Tunneling and TXT Record Abuse in Network Traffic
-####** Signature Mechanics of DNS Tunneling**
+#### **Signature Mechanics of DNS Tunneling**
 Attackers abuse the DNS protocol because firewalls rarely inspect the structural contents of port 53 traffic. The two primary vectors are Inbound Command and Control (C2) using TXT or CNAME records, and Outbound Exfiltration using heavily labeled subdomains.
 ```
 Normal Query:     [Client] ──> A? ://microsoft.com ──────> [Resolver] (Short, predictable)
@@ -774,7 +774,7 @@ Status codes are 3-digit responses that communicate exactly how the server handl
 
 ```text
 [1xx: Info] ──> [2xx: Success] ──> [3xx: Redirect] ──> [4xx: Client Error] ──> [5xx: Server Error]
-
+```
 
 
 ### Securing the Channel with TLS: How Key Exchanges, Certificates, and Ciphers Create HTTPS
@@ -806,7 +806,7 @@ Client                                                              Server
   | [Client Verifies Cert & Derives Session Key]                      |
   |                                                                   |
   | === Encrypted HTTP Traffic Now Flows Over TLS =================== |
-
+```
 
 
 ### Protocol Evolution: Tracing the Structural Differences from HTTP/1.1 to HTTP/2 and HTTP/3
@@ -830,6 +830,8 @@ Released in 2015, HTTP/2 broke the sequential text bottleneck by introducing an 
                          ├── [ HEADERS Frame: Stream 1 ] ──┐
                          ├── [ DATA Frame   : Stream 3 ] ──┼─► Sent simultaneously
                          └── [ DATA Frame   : Stream 1 ] ──┘   over 1 TCP connection
+
+```
 
 ---
 
