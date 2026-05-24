@@ -173,7 +173,7 @@ When analyzing a packet capture, look for specific patterns to diagnose closing 
 If you are analyzing a packet capture and see an unusually high volume of SYN packets without any corresponding ACKs from the same source, what kind of activity or attack should you immediately suspect?
 
 ### Answer
-You are looking at a DoS attack, or a DDoS attack if the traffic is coming from a bunch of different addresses. The attacker is repeatedly starting the TCP handshake by sending SYN packets but they never send the final ACK to finish it. This leaves all those connections half-open, which fills up the connection queue and crashes the system because it runs out of resources to handle legitimate traffic.
+You are looking at a DoS attack (SYN Flood), or a DDoS attack if the traffic is coming from a bunch of different addresses. The attacker is repeatedly starting the TCP handshake by sending SYN packets but they never send the final ACK to finish it. This leaves all those connections half-open, which fills up the connection queue and crashes the system because it runs out of resources to handle legitimate traffic.
 
 ---
 
