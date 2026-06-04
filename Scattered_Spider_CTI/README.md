@@ -266,21 +266,10 @@ The partnership between Scattered Spider and DragonForce represents a major stru
 Federal advisories from CISA and the FBI explicitly identify DragonForce as a primary ransomware variant deployed by Scattered Spider during recent major network intrusions.
 | Operational Focus | Scattered Spider (Initial Access Broker) | DragonForce Cartel (Infrastructure Provider) |
 | --- | --- | --- |
-| **Reconnaissance & Entry** | • Upstream Recon & OSINT<br>
-
-<br>• Identity Theft & SIM Swapping<br>
-
-<br>• Help Desk Vishing & MFA Bypass | • Provides "White-Label" Core Infrastructure<br>
-
-<br>• Hosts centralized Data Leak Sites (DLS) |
-| **Payload & Exploitation** | • Harvests identity tokens<br>
-
-<br>• Deploys RMM backdoors<br>
-
-<br>• Maps internal infrastructure | • Advanced Encryption Builders (Conti-derived)<br>
-
-<br>• Multi-platform payloads (Windows, Linux, ESXi) |
+| **Reconnaissance & Entry** | • Upstream Recon & OSINT<br>• Identity Theft & SIM Swapping<br>• Help Desk Vishing & MFA Bypass | • Provides "White-Label" Core Infrastructure<br>• Hosts centralized Data Leak Sites (DLS) |
+| **Payload & Exploitation** | • Harvests identity tokens<br>• Deploys RMM backdoors<br>• Maps internal infrastructure | • Advanced Encryption Builders (Conti-derived)<br>• Multi-platform payloads (Windows, Linux, ESXi) |
 | **Target Impact** | **Combined Attack Execution** | *Examples: Marks & Spencer, Harrods, and down-stream MSP clients* |
+| **Financial Monetization** | • Initial Access Sales (Dark Web Marketplaces)<br>• Affiliate Fee Cut from Final Ransom Payouts | • Direct Ransom Negotiation<br>• Double/Triple Extortion (DLS & Public Shaming) |
 
 In a typical joint operation, the labor is strictly divided:
 * **The Breach**: Scattered Spider executes the initial phase, using help-desk deception to harvest identity tokens, deploy RMM backdoors, and thoroughly map internal servers.
@@ -315,13 +304,7 @@ The group capitalized on a major vacuum in the cybercrime market following feder
 | Operational Tier | Action / Asset Exchanged | Impact on Target |
 | --- | --- | --- |
 | **Lesser-Skilled Cybercriminals** | Pays an entry fee or agrees to a percentage split of the final ransom cut. | Initiates the pipeline by driving low-level exploitation or purchasing access. |
-| **Scattered LAPSUS$ Hunters Platform (EaaS Infrastructure)** | Provides turnkey assets:<br>
-
-<br>• Lookalike typosquatted phishing infrastructure<br>
-
-<br>• Stolen corporate logs and identity database access<br>
-
-<br>• Professional negotiation teams working under the "SLH" brand | Coordinates the attack vector, escalates privileges, and weaponizes the group's highly feared reputation. |
+| **Scattered LAPSUS$ Hunters Platform (EaaS Infrastructure)** | Provides turnkey assets:<br>• Lookalike typosquatted phishing infrastructure<br>• Stolen corporate logs and identity database access<br>• Professional negotiation teams working under the "SLH" brand | Coordinates the attack vector, escalates privileges, and weaponizes the group's highly feared reputation. |
 | **Devastated Corporate Victim** | Receives highly targeted, automated extortion demands with proof of exfiltration. | Pays a premium ransom demand due to fear of the collective's proven track record of leaking data. |
 
 Under this model, the collective operates as an infrastructure and brand provider:
