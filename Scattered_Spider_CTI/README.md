@@ -264,6 +264,7 @@ The partnership between Scattered Spider and DragonForce represents a major stru
 1. **The Core Connection: High-Value Access Meets Elite Locker**: DragonForce emerged as a prominent threat actor by utilizing modified variants of high-profile codebases (such as LockBit 3.0 and leaked Conti v3 source code). They aggressively stepped into the vacuum left by law enforcement disruptions of older ransomware cartels.
 
 Federal advisories from CISA and the FBI explicitly identify DragonForce as a primary ransomware variant deployed by Scattered Spider during recent major network intrusions.
+
 | Operational Focus | Scattered Spider (Initial Access Broker) | DragonForce Cartel (Infrastructure Provider) |
 | --- | --- | --- |
 | **Reconnaissance & Entry** | • Upstream Recon & OSINT<br>• Identity Theft & SIM Swapping<br>• Help Desk Vishing & MFA Bypass | • Provides "White-Label" Core Infrastructure<br>• Hosts centralized Data Leak Sites (DLS) |
@@ -302,6 +303,7 @@ The creation of the Scattered LAPSUS$ Hunters (SLH) collective and their launch 
 The group capitalized on a major vacuum in the cybercrime market following federal takedowns of major underground forums like BreachForums. Rather than trying to rebuild vulnerable clear-web forums, SLH consolidated its command presence onto a resilient network of synchronized Telegram channels. Managed by a tight core of under five operators directing dozens of personas, these channels function as their primary stage for media stunts, recruiting insiders, and coordinating extortion operations.
 
 2. **The Extortion-as-a-Service (EaaS) Model**: Historically, Ransomware-as-a-Service (RaaS) required complex malware locker development. SLH pioneered the Extortion-as-a-Service (EaaS) framework to monetize pure data theft and maximize the value of their brand reputation.
+   
 | Operational Tier | Action / Asset Exchanged | Impact on Target |
 | --- | --- | --- |
 | **Lesser-Skilled Cybercriminals** | Pays an entry fee or agrees to a percentage split of the final ransom cut. | Initiates the pipeline by driving low-level exploitation or purchasing access. |
@@ -326,6 +328,7 @@ Because their EaaS model lowers the barrier to entry, it allows a highly chaotic
 
 ## 5. Real-World Case Studies and Historical Scenarios
 The most high-profile real-world case studies involving Scattered Spider demonstrate how a group using basic human deception can bypass multi-billion-dollar security perimeters. Below are the key scenarios and tactical breakdowns of their most disruptive campaigns.
+
 | Case Study | Initial Access Vector | Deployment Vector | Financial Impact / Resolution |
 | --- | --- | --- | --- |
 | **Caesars (2023)** | Help desk voice phishing (Vendor) | Corporate Database Exploitation | Paid $15 Million ransom |
@@ -338,6 +341,7 @@ The most high-profile real-world case studies involving Scattered Spider demonst
 The September 2023 dual-strike on Caesars Entertainment and MGM Resorts International is a landmark case study in modern cybersecurity. Conducted almost simultaneously by Scattered Spider (acting as an affiliate deploying ALPHV/BlackCat ransomware), these attacks completely disrupted the Las Vegas Strip.
 
 However, because the two corporate giants made opposite decisions regarding whether to pay the ransom, the events played out as two completely different scenarios.
+
 | Feature | Caesars Entertainment Attack | MGM Resorts Attack |
 | --- | --- | --- |
 | **Primary Target** | Third-party IT support vendor | Internal corporate help desk |
@@ -393,6 +397,7 @@ Unlike traditional ransomware attacks that encrypt servers, this was a pure clou
   2. **Public Shaming**: If a company delayed or refused to negotiate, the group listed them on dark web forums and began leaking samples of the data to pressure executives and tank the company's stock price.
 
 5. **Final Summary**:
+
 | Attack Pillar | Scattered Spider Tactical Execution |
 | --- | --- |
 | **Primary Target** | Corporate Snowflake data warehouses |
@@ -430,6 +435,7 @@ While M&S has consistently refused to confirm if a ransom was ultimately paid, t
 * **Stock Market Crash**: M&S's overall market valuation plummeted by over £700 million in the immediate weeks following the disclosure. Full digital restoration was not achieved until late summer.
 
 5. **Final Summary**:
+
 | Attack Vector Element | Scattered Spider/DragonForce Execution |
 | --- | --- |
 | **Initial Foothold** | Help desk vishing via 3rd-party vendor (Tata Consultancy Services) |
@@ -470,6 +476,7 @@ Just days after the FBI's warning, Scattered Spider struck Australia’s largest
 Unlike the MGM attack, Scattered Spider rarely deployed file-encrypting ransomware during the aviation pivot. Instead, they focused heavily on pure data extortion.
 
 Because airlines are heavily penalized by global regulators (like the GDPR in Europe or the Privacy Act in Australia) for losing customer data, Scattered Spider used the threat of leaking millions of traveler profiles as leverage to demand multi-million dollar ransoms.
+
 | Target | Breach Date | Access Exploit | Primary Data Impact | Resolution/Outcome |
 | --- | --- | --- | --- | --- |
 | **Hawaiian Airlines** | June 2025 | Vishing targeted at internal IT help desk | Compromised internal IT system profiles | Contained safely; triggered global FBI emergency alert. |
@@ -501,6 +508,7 @@ Defensive architecture must shift from traditional perimeter security to identit
 * **Internal Communication Monitoring**: If a breach is suspected, move the Incident Response (IR) team entirely to an out-of-band communication channel (such as a separate, hardened Signal group). Scattered Spider routinely monitors compromised corporate Slack and Microsoft Teams environments to stay one step ahead of defensive responders.
 
 #### **Final Blue Team Checklist**
+
 | Mitigation Category | Tactical Action Item | Defensive Impact |
 | --- | --- | --- |
 | **Authentication** | Transition all staff to Phishing-Resistant MFA | Stops MFA Fatigue and SIM-Swapping |
@@ -555,6 +563,7 @@ Scattered Spider specializes in exploiting account recovery workflows. If an emp
 * **Out-of-Band Registration**: When issuing a new token or TAP, the help desk must verify the employee's identity via live video verification or an encrypted, pre-arranged secondary channel; never via a simple phone call or email check.
 
 #### **Security Comparison**
+
 | MFA Method | Resistant to Push Bombing? | Resistant to SIM-Swapping? | Resistant to Fake Phishing Sites? |
 | --- | --- | --- | --- |
 | SMS / Voice Codes | No | No | No |
@@ -597,6 +606,7 @@ If a user calls on a mobile phone claiming they are locked out, the help desk ca
 * **Zero-Trust Help Desk Culture**: Reward technicians for blocking suspicious calls. Treat a bypassed verification protocol as a major security compliance violation, regardless of how important the caller claims to be.
 
 4. **Comparison of Help Desk Verification Methods**
+ 
 | Protocol Method | Resistance to Scattered Spider | Implementation Complexity | User Friction |
 | --- | --- | --- | --- |
 | **Knowledge-Based Questions** (ID, DOB, Manager) | Very Low (Scraped via OSINT) | Low | Low |
@@ -625,6 +635,7 @@ To catch an attacker using your own tools against you, blue teams must shift fro
 * **Rotate Local Administrator Passwords via LAPS**: Scattered Spider frequently uses tools like PsExec to move laterally using local admin accounts. Deploying Microsoft LAPS (Local Administrator Password Solution) ensures that every machine on the network has a completely unique, rotating local admin password, preventing lateral crawl.
 
 #### **LOTL Detection Blueprint for Blue Teams**
+
 | Hijacked Native Binary | Common Attacker Use Case | Defensive Mitigation |
 | --- | --- | --- |
 | **`powershell.exe`** | Network reconnaissance, fileless malware execution | Enforce Constrained Language Mode (CLM) + Script Block Logging |
@@ -695,6 +706,7 @@ DeviceProcessEvents
 
 
 #### **Detection Engineering Priority Matrix**
+
 | Use Case/Threat | Detection Type | Log Source | Severity | False Positive Rate |
 | --- | --- | --- | --- | --- |
 | **MFA Push Bombing** | Behavioral/Threshold | Okta/Entra ID Logs | Critical | Very Low |
@@ -746,6 +758,7 @@ The primary goal of these policy configurations is to enforce phishing resistanc
   * Ensure that "Restrict access to Entra ID administration portal" is set to **Yes**. This prevents standard employees (and the hackers who compromise them) from inspecting the corporate directory to find other accounts or administrative structures to target.
 
 #### **Policy Architecture Checklist**
+
 | IdP Platform | Specific Configuration Setting | Security Objective |
 | --- | --- | --- |
 | **Okta** | Set Possession Factor to Require phishing-resistant | Eliminates SMS and standard push fatigue entirely |
@@ -796,6 +809,7 @@ The final month is dedicated to fixing what broke and ensuring the group can nev
 
 ### The Companion Purple Team Scorecard
 Use this quick checklist scorecard to grade your team's performance during the Day 31–60 workshop exercises:
+
 | Exercise Target | Did Red Team Succeed? (Y/N) | Did EDR/IdP Prevent It? (Y/N) | Did SIEM Detect It? (Y/N) | Time to Detect/Contain |
 | --- | --- | --- | --- | --- |
 | **1. Help Desk Vishing** |  |  |  |  |
