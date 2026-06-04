@@ -291,6 +291,7 @@ This shift toward cross-group "cartelization" means defenders are no longer figh
 ### The Scattered LAPSUS$ Hunters Collective and Extortion-as-a-Service
 The creation of the Scattered LAPSUS$ Hunters (SLH) collective and their launch of an Extortion-as-a-Service (EaaS) model represents a major evolution in the cybercrime landscape. This development marks a shift where the underground’s most aggressive English-speaking extortion gangs moved away from loose collaboration and formalized a consolidated, commercial "supergroup" cartel under the umbrella of The Com.
 1. **The SLH Collective: A Merger of Extreme Convenience**: Formed as a high-profile federation, Scattered LAPSUS$ Hunters (SLH) brings together three distinct criminal brands, each contributing a specialized operational strength:
+
 | Threat Group Faction | Core Operational Specialty Contributed to SLH |
 | --- | --- |
 | **Scattered Spider** | Masterful social engineering, identity vishing, and bypassing enterprise MFA. |
