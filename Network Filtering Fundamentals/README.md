@@ -24,7 +24,7 @@ A stateless firewall inspects only the outer packaging of a packet. It compares 
   * Destination Port (What service is it trying to access?)
   * IP Protocol (TCP, UDP, ICMP)
 * **The Return Traffic Vulnerability**: Because a stateless firewall cannot remember conversations, you must write two separate rules for every single type of traffic: one rule for the request, and one rule for the response. For example, if an internal user visits a website, a stateless firewall needs:
-  1. An Outbound Rule allowing internal IPs to talk to external Web IPs on Port 80/443.
+  1. An Outbound Rule allowing internal IPs to talk to external Web IPs on `Port 80/443`.
   2. An Inbound Rule allowing external Web IPs to talk back to internal IPs on high-numbered random ports (ephemeral ports).
   * The Flaw: Attackers can easily bypass this by forging packets with those specific source ports, tricking the firewall into thinking the packet is a response to an internal request.
 
@@ -32,21 +32,21 @@ A stateless firewall inspects only the outer packaging of a packet. It compares 
 Stateful firewalls use a dynamic State Table (a connection tracking memory space) to keep track of active, ongoing conversations.
 * **The Inspection Mechanics**: When a packet arrives, the firewall performs a rapid two-step inspection:
   1. Check the State Table. It checks if the packet's source/destination IP and port combination matches an active session already stored in memory. If a match is found, the packet is instantly approved and passed through. Static rules are completely skipped.
-  2. Check Policy Rules. If the packet does not match an existing session (meaning it is a brand-new connection request), the firewall evaluates it against the static security rules. If allowed, a new entry is written to the State Table.
+  2. Check Policy Rules. If the packet doesn't match an existing session (meaning it is a brand-new connection request), the firewall evaluates it against the static security rules. If allowed, a new entry is written to the State Table.
 
-* **The TCP Handshake Mechanic**: Stateful firewalls natively understand network protocols. For a TCP connection, the firewall actively tracks the three-way handshake:
-  * **SYN**: The firewall sees the initial connection request. It checks its security policy rules. If permitted, it adds the connection to the state table as SYN_SENT or NEW.
-  * **SYN-ACK**: It monitors for the server's response.
-  * **ACK**: Once the handshake completes, the state transitions to ESTABLISHED.
+* **The `TCP` Handshake Mechanic**: Stateful firewalls natively understand network protocols. For a `TCP` connection, the firewall actively tracks the three-way handshake:
+  * **`SYN`**: The firewall sees the initial connection request. It checks its security policy rules. If permitted, it adds the connection to the state table as `SYN_SENT` or `NEW`.
+  * **`SYN-ACK`**: It monitors for the server's response.
+  * **`ACK`**: Once the handshake completes, the state transitions to `ESTABLISHED`.
 
-Any inbound packet arriving with a modified header (such as a fake ACK packet) that does not match a pre-existing SYN sequence in the state table is instantly recognized as an anomaly and dropped.
+Any inbound packet arriving with a modified header (such as a fake `ACK` packet) that doesn't match a pre-existing `SYN` sequence in the state table is instantly recognized as an anomaly and dropped.
 
 * **Mechanical Comparison**
 
 | Inspection Mechanic | Stateless Firewall | Stateful Firewall |
 | --- | --- | --- |
 | Data Memory | None. Treats every packet as a stranger. | High. Maintains a dynamic session table in RAM. |
-| Inspection Depth | Header metadata only (IP, Port, Protocol). | Protocol state, TCP sequence numbers, flags. |
+| Inspection Depth | Header metadata only (IP, Port, Protocol). | Protocol state, `TCP` sequence numbers, flags. |
 | Processing Speed | Faster. Very low CPU and RAM footprint. | Slower per new packet, but faster for established streams. |
 | Rule Complexity | High. Requires manual inbound and outbound rules. | Low. Outbound rules automatically allow response traffic. |
 | DDoS Vulnerability | High risk of rule-bypass attacks. | High risk of RAM exhaustion (State Table saturation). |
@@ -56,52 +56,52 @@ Any inbound packet arriving with a modified header (such as a fake ACK packet) t
 To understand a stateful firewall at its most granular level, we must look directly inside the Connection State Table (often referred to as conntrack in Linux and Netfilter environments). This memory space tracks the precise lifecycle of protocols and handles the complex problem of dynamic port mapping. Here's the mechanical breakdown of how state tables process TCP handshakes and manage dynamic ports:
 1. **The Anatomy of a State Table Entry**: A state table entry is a data structure stored in the firewall's RAM. It uniquely identifies a bidirectional conversation by tracking a tuple of information for both the original request and the expected reply.
 * **A typical entry contains**:
-  * **Layer 3/4 Protocol**: TCP, UDP, or ICMP.
+  * **Layer 3/4 Protocol**: `TCP`, `UDP`, or `ICMP`.
   * **Original Direction Tuple**: Source IP, Destination IP, Source Port, Destination Port.
   * **Reply Direction Tuple**: Expected Reply Source IP, Reply Destination IP, Reply Source Port, Reply Destination Port.
   * **Connection State**: The current phase of the protocol exchange.
   * **Timeout (TTL)**: A countdown timer in seconds. If no packets match this entry before the timer hits zero, the entry is purged from RAM to save memory.
 
-2. **TCP Handshake Lifecycles in the State Table**: A stateful firewall acts as a protocol state machine. It parses TCP flags (SYN, ACK, FIN, RST) and sequence numbers inside the Layer 4 header, shifting the connection status through a strict lifecycle.
+2. **TCP Handshake Lifecycles in the State Table**: A stateful firewall acts as a protocol state machine. It parses `TCP` flags (`SYN`, `ACK`, `FIN`, `RST`) and sequence numbers inside the Layer 4 header, shifting the connection status through a strict lifecycle.
 
 | Received Packet Flag | Resulting Conntrack State | Typical Timeout Value |
 | --- | --- | --- |
-| **SYN** | NEW / SYN_SENT | ~60 seconds |
-| **SYN-ACK** | SYN_RECV | ~60 seconds |
-| **ACK** | ESTABLISHED | ~24 hours (up to 5 days) |
-| **FIN** | FIN_WAIT / CLOSE | ~120 seconds |
+| **`SYN`** | `NEW / SYN_SENT` | ~60 seconds |
+| **`SYN-ACK`** | `SYN_RECV` | ~60 seconds |
+| **`ACK`** | `ESTABLISHED` | ~24 hours (up to 5 days) |
+| **`FIN`** | `FIN_WAIT / CLOSE` | ~120 seconds |
 
 * **Step 1: The Outbound Request (SYN)**
-  1. An internal client (10.0.0.5:49152) sends a packet to an external server (192.0.2.10:443) with only the SYN flag set.
-  2. The firewall evaluates its static security policy. The rule allows outbound HTTPS traffic.
+  1. An internal client (`10.0.0.5:49152`) sends a packet to an external server (`192.0.2.10:443`) with only the `SYN` flag set.
+  2. The firewall evaluates its static security policy. The rule allows outbound `HTTPS` traffic.
   3. The firewall creates a brand-new entry in its state table:
-    * **State**: NEW (or SYN_SENT)
+    * **State**: `NEW` (or `SYN_SENT`)
     * **Timeout**: ~60 seconds (short, because the connection isn't confirmed yet).
 
-* **Step 2: The Inbound Response (SYN-ACK)**
-  1. The external server replies with a packet containing SYN-ACK flags.
-  2. The firewall receives the packet and extracts its tuple: Source 192.0.2.10:443, Destination 10.0.0.5:49152.
+* **Step 2: The Inbound Response (`SYN-ACK`)**
+  1. The external server replies with a packet containing `SYN-ACK` flags.
+  2. The firewall receives the packet and extracts its tuple: Source `192.0.2.10:443`, Destination `10.0.0.5:49152`.
   3. It performs a hash-table lookup in its RAM and finds the matching entry created in Step 1.
   4. **Action**: The firewall instantly permits the packet without checking static rules. It updates the state table entry:
-    * **State**: SYN_RECV
+    * **State**: `SYN_RECV`
 
-* **Step 3: Connection Established (ACK)**
-  1. The internal client sends the final ACK packet to complete the 3-way handshake.
-  2. The firewall matches the packet to the entry, verifies the TCP sequence numbers match the expected progression, and updates the table:
-    * **State**: ESTABLISHED
+* **Step 3: Connection Established (`ACK`)**
+  1. The internal client sends the final `ACK` packet to complete the 3-way handshake.
+  2. The firewall matches the packet to the entry, verifies the `TCP` sequence numbers match the expected progression, and updates the table:
+    * **State**: `ESTABLISHED`
     * **Timeout**: Extended dramatically (often 24 hours or more). As long as traffic flows, this timer resets.
 
-* **Step 4: The Teardown (FIN or RST)**
-  1. When the session ends, one device sends a FIN or RST (Reset) packet.
-  2. The firewall transitions the state to FIN_WAIT, TIME_WAIT, or CLOSE.
+* **Step 4: The Teardown (`FIN` or `RST`)**
+  1. When the session ends, one device sends a `FIN` or `RST` (Reset) packet.
+  2. The firewall transitions the state to `FIN_WAIT`, `TIME_WAIT`, or `CLOSE`.
   3. The timeout drops sharply (usually to 120 seconds or less) to allow any final lingering packets to pass through before deleting the entry entirely.
 
-3. **Dynamic Port Management (ALGs & Helpers)**: Static protocols use predictable ports (such as HTTPS always using port 443). However, many complex protocols use dynamic port allocation, where a control channel on a known port negotiates a completely random secondary port for data transfer.
+3. **Dynamic Port Management (ALGs & Helpers)**: Static protocols use predictable ports (such as HTTPS always using `port 443`). However, many complex protocols use dynamic port allocation, where a control channel on a known port negotiates a completely random secondary port for data transfer.
 
 Because stateless firewalls and basic stateful rules cannot predict these random ports, they break these protocols. Stateful firewalls solve this using Application Layer Gateways (ALGs) or Connection Tracking Helpers.
-* **The Classic Problem: Active FTP**
+* **The Classic Problem: Active `FTP`**
   * FTP uses two distinct connections:
-  1. **Control Channel**: Client connects to Server Port 21 to send commands.
+  1. **Control Channel**: Client connects to `Server Port 21` to send commands.
   2. **Data Channel (Active Mode)**: The server must initiate a brand-new inbound connection back to a random port on the client to transfer files.
 
 An inbound connection initiated by an external server will instantly fail against standard firewall rules.
@@ -374,7 +374,7 @@ This philosophy underpins the Default-Deny Posture, forming the basis of the mod
 
 * **The Whitelist Framework (Default-Deny)**: A whitelist framework operates on the principle of Default-Deny. The system assumes that all network traffic is dangerous until proven otherwise.
   * **The Mechanic**: Every pathway is completely locked down. The firewall will drop 100% of incoming and outgoing packets until an administrator explicitly writes an entry permitting a specific Source IP, Destination IP, Protocol, and Port.
-  * **The Security Benefit**: It does not matter if a hacker launches an unpatched, unknown Zero Day malware strain inside the network. If that malware attempts to communicate with a Command and Control (C2) server over an outbound port that wasn't explicitly whitelisted, the firewall kills the connection instantly.
+  * **The Security Benefit**: It doesn't matter if a hacker launches an unpatched, unknown Zero Day malware strain inside the network. If that malware attempts to communicate with a Command and Control (C2) server over an outbound port that wasn't explicitly whitelisted, the firewall kills the connection instantly.
 
 2. **The Mechanics of the Implicit Deny**: In network hardware (routers, switches, firewalls), the implicit deny is enforced by an invisible, unwritten rule hardcoded into the bottom of the security engine's execution logic.
 * **The Execution Cycle**: As detailed in top-down processing, when a packet arrives, it traverses the ACL sequentially:
@@ -383,7 +383,7 @@ This philosophy underpins the Default-Deny Posture, forming the basis of the mod
   3. Are there any more user-defined rules? No.
   4. Trigger Catch-All Rule: The packet hits the Implicit Deny All. The device drops the packet immediately.
 
-* **The Explicit "Implicit Deny" Best Practice**: Because the implicit deny rule is invisible by default on many legacy systems, it operates silently. If a packet is dropped by it, the device often does not log the event. This leaves network administrators completely blind to port scans, probing attempts, or misconfigured applications.
+* **The Explicit "Implicit Deny" Best Practice**: Because the implicit deny rule is invisible by default on many legacy systems, it operates silently. If a packet is dropped by it, the device often doesn't log the event. This leaves network administrators completely blind to port scans, probing attempts, or misconfigured applications.
 
 To counter this, enterprise network security design demands replacing or augmenting the invisible block with an Explicit Deny All rule at the absolute bottom of every ACL or security policy:
 ```txt
@@ -410,7 +410,7 @@ By explicitly adding `deny ip any any log` as the final line, you do not change 
 To understand exactly how a network operating system (NOS) executes the invisible catch-all rule, you have to look past the command-line interface (CLI) and inspect the underlying software architecture, system memory allocation, and hardware ASICs.
 
 When an administrator compiles or commits a ruleset, the NOS translates those abstract text commands into a machine-executable lookup structure. Here's how modern Network Operating Systems architecturally compile and enforce the implicit deny.
-1. **The Compilation Phase: Flattening the Ruleset**: When you hit commit on a modern NOS (such as Juniper Junos or Palo Alto PAN-OS) or finish entering a line on a traditional CLI (such as Cisco IOS), the operating system does not leave the rules as a text list. It runs the configuration through a software compiler.
+1. **The Compilation Phase: Flattening the Ruleset**: When you hit commit on a modern NOS (such as Juniper Junos or Palo Alto PAN-OS) or finish entering a line on a traditional CLI (such as Cisco IOS), the operating system doesn't leave the rules as a text list. It runs the configuration through a software compiler.
 
 | Compilation Phase | Processing Action | Output Structure |
 | --- | --- | --- |
@@ -435,7 +435,7 @@ How the compiled structure is executed depends entirely on whether the NOS is ru
 Different vendors treat the structural visibility and logging mechanics of the implicit deny in fundamentally different ways:
 * **Cisco IOS / XE / XR**:
   * **The Invisible Trapper**: Cisco IOS compiles an unwritten `deny ip any any` at the bottom of every access list.
-  * **The Diagnostic Catch**: If you run `show ip access-lists`, you will not see this line. However, if traffic is being dropped by it, you will notice that the match counters for your written permit rules do not add up to the total interface packet count. To expose it for hardware profiling, engineers must manually append `deny ip any any` at the end, which instructs the hardware to log hits to the console or syslog.
+  * **The Diagnostic Catch**: If you run `show ip access-lists`, you won't see this line. However, if traffic is being dropped by it, you will notice that the match counters for your written permit rules do not add up to the total interface packet count. To expose it for hardware profiling, engineers must manually append `deny ip any any` at the end, which instructs the hardware to log hits to the console or syslog.
 
 * **Juniper Junos OS**:
   * **The Firewall Filter Block**: Junos treats everything through a strict, structured evaluation hierarchy. At the end of every firewall filter term list, there's a hardcoded system action called an Implicit Discard.
@@ -572,7 +572,7 @@ To mitigate data exfiltration, security engineers must move beyond basic port bl
 
 * **A. DNS Tunneling (Data Exfiltration via Queries)**: DNS is the most heavily abused protocol for data exfiltration because it must remain open for core internet navigation.
   * **The Attack Vector**: The malware encodes a piece of sensitive data (like a credit card number) into a Base64 string (`4142434431323334`). It then prepends this string as a subdomain and makes a standard DNS request for an attacker-controlled domain: `4142434431323334.malicious-domain.com`.
-  * **The Transmission**: The corporate internal DNS resolver processes the request, sees that it does not own the zone, and forwards it out to the internet to the authoritative nameserver for `malicious-domain.com`; which is owned by the attacker. The attacker's server captures the incoming subdomain query, decodes the string, and silently reassembles the stolen data.
+  * **The Transmission**: The corporate internal DNS resolver processes the request, sees that it doesn't own the zone, and forwards it out to the internet to the authoritative nameserver for `malicious-domain.com`; which is owned by the attacker. The attacker's server captures the incoming subdomain query, decodes the string, and silently reassembles the stolen data.
 
 * **B. ICMP Tunneling (Ping Abuse)**: The Internet Control Message Protocol (ICMP) is used for network diagnostics (pinging). However, the ICMP specification allows an optional, variable-sized Data Payload field so that diagnostic tools can measure packet integrity and latency over distance.
   * **The Attack Vector**: A customized malware stager intercepts the local ICMP execution engine. When it sends an echo request (ping) to an external IP, it strips out the default dummy padding (like `abcdefghijklmnopqrstuvw...`) and replaces it with raw, compressed corporate text or files.
