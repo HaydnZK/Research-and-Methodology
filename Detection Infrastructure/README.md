@@ -25,7 +25,7 @@ Detection infrastructure is the engine that turns raw network traffic into actio
     * **Race Conditions**: Trying to manually kill a connection after detection is often a losing battle against the attacker's speed.
 
 3. **Active Mode: Threat Blocking (IPS)**: IPS works inline, meaning every packet must pass through the inspection engine to reach its destination.
-* **How It Works**: The device sits directly in the path—for example, between your edge router and core switch. It uses two physical interfaces to act as a bridge. It inspects packets in memory and only forwards them if they're deemed safe.
+* **How It Works**: The device sits directly in the path; for example, between your edge router and core switch. It uses two physical interfaces to act as a bridge. It inspects packets in memory and only forwards them if they're deemed safe.
   * **Advantages**:
     * **Real-Time Remediation**: It stops threats instantly, preventing them from ever touching your endpoints.
     * **Automated Clean-up**: It can dynamically block traffic from known malicious source IPs.
@@ -52,7 +52,7 @@ Detection infrastructure is the engine that turns raw network traffic into actio
 2. **Inline Deployment Placement (IPS)**: Inline devices act as "choke points," meaning traffic must pass through the engine to reach its destination.
 * **Common Placement Locations**:
   * **Network Perimeter (Location A)**: Placed between the edge router and outer firewall (or between the firewall and core switch) to block brute-force attacks and scans before they reach internal systems.
-  * **Inter-VLAN/Core Segments (Location B)**: Placed between internal zones—for example, separating the Corporate User VLAN from the Data Center—to stop lateral movement.
+  * **Inter-VLAN/Core Segments (Location B)**: Placed between internal zones, for example, separating the Corporate User VLAN from the Data Center, to stop lateral movement.
 * **Engineering & Architecture Requirements**:
   * **Fail-Open Hardware Bypass**: You need specialized Bypass NICs. If the IPS loses power or crashes, these mechanical relays "snap" closed, turning the device into a wire splice to keep the network running.
   * **Link State Propagation**: If an upstream link fails, the device must drop the downstream link so routers can instantly calculate new paths.
@@ -189,7 +189,7 @@ alert tcp $EXTERNAL_NET any -> $HOME_NET 80 (
 
 * **Header constraints**: Restricts evaluation to incoming TCP traffic headed for web servers on port 80 to avoid processing irrelevant streams.
 * **Content modifiers**: Targets specific protocol layers (like `http_uri` or `http_client_body`), allowing the engine to focus power only on high-value metadata rather than the whole packet.
-* **Fast_pattern directive**: Isolates the most unique static string—in this case, `/cmd.php`. The engine only runs the expensive PCRE engine if this initial string matches first.
+* **Fast_pattern directive**: Isolates the most unique static string; in this case, `/cmd.php`. The engine only runs the expensive PCRE engine if this initial string matches first.
 
 4. **Operational Dynamics of Signatures**:
 
@@ -291,7 +291,7 @@ alert tcp $EXTERNAL_NET any -> $HOME_NET 80 (
 * **Shannon Entropy (Randomness Detection)**: Entropy measures the randomness of a dataset on a scale from 0 to 8.
   * **The Application**: Standard files have entropy between 4 and 6. Obfuscated payloads or encrypted data hit 7 to 8. If an application path that usually receives plain JSON suddenly processes a payload with an entropy score of 7.99, it’s a red flag for a potential encrypted reverse shell.
 * **Frequency Analysis & Long-Tail Distributions**: This identifies stealthy communication by analyzing connection timing.
-  * **The Mechanism**: Standard browsing creates "bursty" traffic. Automated C2 malware beacons connect at highly predictable intervals—for example, every 30 seconds plus 5% jitter. Statistical engines calculate the variance in these time-deltas; near-zero variance highlights a deterministic machine loop.
+  * **The Mechanism**: Standard browsing creates "bursty" traffic. Automated C2 malware beacons connect at highly predictable intervals; for example, every 30 seconds plus 5% jitter. Statistical engines calculate the variance in these time-deltas; near-zero variance highlights a deterministic machine loop.
 
 4. **Practical Implementation: Comparison**:
 
@@ -363,7 +363,7 @@ Deep Packet Inspection (DPI) at Layer 7 is what transforms a basic port-blocking
   * Once classified, the `Binder` maps the connection to the appropriate protocol inspector.
 
 2. **Protocol Parsing and Normalization Architectures**: Once identified, packets must be translated into structured datasets before the rules engine evaluates them.
-* **Suricata**: Uses Rust-based memory-safe parsers. By moving high-risk parsers (such as `HTTP/2`, `TLS`, or `DNS`) into Rust, Suricata eliminates classes of memory-corruption vulnerabilities. It also utilizes `sticky buffers`—indexable memory segments like `http.uri` or `http.user_agent`—which allow signatures to target specific data without needing to parse the entire packet body.
+* **Suricata**: Uses Rust-based memory-safe parsers. By moving high-risk parsers (such as `HTTP/2`, `TLS`, or `DNS`) into Rust, Suricata eliminates classes of memory-corruption vulnerabilities. It also utilizes `sticky buffers`, indexable memory segments like `http.uri` or `http.user_agent`, which allow signatures to target specific data without needing to parse the entire packet body.
 * **Snort 3**: Leverages an object-oriented `C++` design based on independent `Service Inspectors`. It uses a "just-in-time" (`JIT`) normalization philosophy, executing deep parsing only when a rule explicitly references that specific protocol buffer, which saves significant resources compared to aggressive normalization.
 
 3. **File Extraction Capabilities**: Both engines can reconstruct, hash, and extract files from network streams in real time.
@@ -401,7 +401,7 @@ An intrusion detection platform is only as effective as the intelligence feeding
 * **PulledPork**: The traditional management tool for the `Snort` ecosystem. It automates downloads and handles `LSP` (Lightweight Security Packages) to load rules modularly into `Snort 3` instances.
 
 3. **Operational Management and Performance Tuning**: You shouldn't deploy thousands of rules indiscriminately. Engineers use specific strategies to filter the noise:
-* **Managing Classifications (`disable.conf`)**: Open-source feeds include noisy categories—such as gaming or peer-to-peer traffic—that can saturate `SOC` monitoring. `disable.conf` lets you strip these out during the consolidation phase.
+* **Managing Classifications (`disable.conf`)**: Open-source feeds include noisy categories, such as gaming or peer-to-peer traffic, that can saturate `SOC` monitoring. `disable.conf` lets you strip these out during the consolidation phase.
 * **Pre-Flight Verification (CI/CD)**: To prevent malformed rules from crashing production, updates run in an isolated sandbox first. If the test (like `suricata -T` or `snort --test`) passes, the engine receives a `SIGHUP` signal to reload in the background, ensuring zero dropped packets.
 
 4. **Strategic Compatibility Matrix**:
@@ -416,7 +416,7 @@ An intrusion detection platform is only as effective as the intelligence feeding
 
 #### **Integration points with SIEM and log aggregation platforms: Sending alerts to the SOC**
 1. **Architectural Integration Patterns**: To transform raw alerts into actionable intelligence for a `SOC`, detection infrastructure must deliver telemetry reliably and in a highly structured format. Modern environments typically use one of two log shipping models.
-* **The Decoupled Model (Recommended)**: The engine writes structured events locally to a fast path, such as `eve.json` in `Suricata`. An independent log collection daemon—like `Vector`, `Logstash`, or `Fluentbit`—watches the file and handles delivery to the `SIEM`. This isolates the packet-processing engine from downstream network disruptions, using the shipper to buffer logs if the `SIEM` experiences lag.
+* **The Decoupled Model (Recommended)**: The engine writes structured events locally to a fast path, such as `eve.json` in `Suricata`. An independent log collection daemon, like `Vector`, `Logstash`, or `Fluentbit`, watches the file and handles delivery to the `SIEM`. This isolates the packet-processing engine from downstream network disruptions, using the shipper to buffer logs if the `SIEM` experiences lag.
 * **The Direct Ingestion Model**: The engine sends events directly to a remote collector over protocols like encrypted `Syslog` (`TCP/TLS`). This simplifies the footprint but can occasionally introduce backpressure inside the detection engine if the network times out.
 
 2. **Standardized Log Formats**: Standardizing outputs is critical for building reliable correlation rules.
@@ -464,7 +464,7 @@ An intrusion detection platform is only as effective as the intelligence feeding
 
 4. **SOC Engineering Best Practices**:
 * **Throttle Recurring Noise**: Use `threshold.config` in `Snort` or `suricata.yaml` to ensure brute-force scans only fire a single alert per minute, preventing pipeline flooding.
-* **Enrich Fields Upstream**: Instruct your log shippers to append asset metadata—such as server priority or active `AWS` tags—to events before they hit the `SIEM`, which reduces the need for heavy lookup queries during triage.
+* **Enrich Fields Upstream**: Instruct your log shippers to append asset metadata, such as server priority or active `AWS` tags, to events before they hit the `SIEM`, which reduces the need for heavy lookup queries during triage.
 * **Encrypt Log Transports**: Never send unencrypted alert text. Ensure shippers utilize `mTLS` or secure `HTTPS` webhooks to stream events from edge nodes to central collection endpoints.
 
 
@@ -504,7 +504,7 @@ An intrusion detection platform is only as effective as the intelligence feeding
 #### **Importance of documentation and version control: Tracking changes in Git**
 1. **Infrastructure as Code (IaC) for Detection**: Deploying detection rules directly to production sensors without version control creates operational blind spots. A single typo can cause a network outage or silent telemetry gaps. Modern teams treat rules as `Infrastructure as Code` (`IaC`), managing them in `Git` to track changes, automate testing, and ensure accountability.
 2. **Why Git is Critical for Detection Engineering**:
-* **Complete Change Audit Trails**: When a rule triggers a false positive, `Git` lets you see exactly who authored the change, what was altered, and the context—referencing specific `JIRA` or `GitHub` tickets.
+* **Complete Change Audit Trails**: When a rule triggers a false positive, `Git` lets you see exactly who authored the change, what was altered, and the context; referencing specific `JIRA` or `GitHub` tickets.
 * **Safe Rollbacks during Outages**: If a rule triggers a production outage, `git revert <commit_id>` allows you to restore the last known good state in seconds, rather than manually hunting for corrupted lines on live sensors.
 * **Collaborative Peer Review**: `Pull Requests` (`PR`) act as a mandatory staging gate where a second engineer verifies `fast_pattern` usage and ensures metadata like `msg` and `classtype` comply with your standards.
 
