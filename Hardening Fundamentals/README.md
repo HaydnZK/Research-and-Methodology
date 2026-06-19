@@ -31,7 +31,7 @@ When the switch catches an unauthorized MAC or someone tries to plug in an extra
 | Shutdown | Yes | Yes | Yes | The enterprise standard. Shuts the port down completely until you manually reset it. |
 
 #### Command Blueprint: Cisco IOS Port Security
-Here is the baseline configuration for securing an active user port and isolating an unused one.
+Here's the baseline configuration for securing an active user port and isolating an unused one.
 * **Securing an Active User Port (Workstation)**
 
 ```text
@@ -78,7 +78,7 @@ To keep the network's blast radius small, your architecture needs to follow stri
 * **Minimize the Native VLAN Attack Surface**: Change the default Native VLAN (usually VLAN 1) to an unused, isolated VLAN ID across all trunk links to stop VLAN hopping attacks.
 
 #### **Standard Enterprise VLAN Segmentation Schema**
-A resilient architecture breaks networks into isolated blocks. Here is a standard blueprint:
+A resilient architecture breaks networks into isolated blocks. Here's a standard blueprint:
 
 | VLAN ID | Segment Name | Trust Level | Security Controls & Isolation Rules |
 | --- | --- | --- | --- |
@@ -90,7 +90,7 @@ A resilient architecture breaks networks into isolated blocks. Here is a standar
 | 999 | Native / Blackhole | None | Unused, non-routed VLAN. Used for trunk link defaults and disabling unused ports. No traffic permitted. |
 
 #### **Cisco IOS Configuration Blueprint**
-Here is the CLI configuration for defining secure VLANs, assigning access ports, and hardening trunk links.
+Here's the CLI configuration for defining secure VLANs, assigning access ports, and hardening trunk links.
 1. **Defining Secure VLANs on the Switch**
 
 ```text
@@ -145,11 +145,11 @@ DAI relies on a database to verify IP-to-MAC bindings. If an incoming packet doe
 1. **The DHCP Snooping Binding Database**: DAI uses a live database built by DHCP Snooping. When a device gets an IP from a legitimate DHCP server, the switch records the IP, MAC, lease time, and port. DAI references this to police the network.
 2. **Static ARP ACLs for Fixed Assets**: For servers or gateways with static IPs, you create manual ARP Access Control Lists. DAI checks these to avoid false positives.
 3. **Trusted vs. Untrusted Ports**:
-* **Untrusted Ports**: Standard edge ports like wall jacks and Wi-Fi access points. Every ARP packet here is inspected.
+* **Untrusted Ports**: Standard edge ports like wall jacks and Wi-Fi access points. Every ARP packet here's inspected.
 * **Trusted Ports**: Uplinks to other switches, routers, or firewalls. Traffic here bypasses filtering to save CPU cycles.
 
 #### **Cisco IOS Configuration Blueprint**
-Here is the setup for DHCP snooping and DAI on a production VLAN.
+Here's the setup for DHCP snooping and DAI on a production VLAN.
 1. **Enable DHCP Snooping**
 
 ```text
@@ -207,12 +207,12 @@ Edge router hardening secures your network perimeter by ensuring the gateway dro
 
 #### **Core Pillars of Edge Router Protection**
 Securing the edge requires a mix of strict access policies, packet authenticity validation, and control plane shielding.
-* **Infrastructure Access Control Lists (iACLs)**: These filters block unauthorized traffic destined directly for the router itself—like management IPs, routing protocols, and control services—while still letting legitimate transit traffic pass through.
+* **Infrastructure Access Control Lists (iACLs)**: These filters block unauthorized traffic destined directly for the router itself, like management IPs, routing protocols, and control services, while still letting legitimate transit traffic pass through.
 * **Source IP Validation (Anti-Spoofing)**: Perimeter routers must drop incoming packets that claim to originate from internal network addresses, preventing attackers from bypassing perimeter controls through IP spoofing.
 * **Control Plane Policing (CoPP)**: This stops the router's processor from being overwhelmed by flooding attacks (like ICMP floods) by rate-limiting traffic destined for the CPU.
 
 #### **Perimeter Hardening Configuration Blueprint**
-Here is the production-ready Cisco IOS blueprint for shielding an enterprise-facing perimeter router.
+Here's the production-ready Cisco IOS blueprint for shielding an enterprise-facing perimeter router.
 1. **Implement Unicast Reverse Path Forwarding (uRPF)**: uRPF forces the router to check the source IP of any incoming packet on the untrusted interface. If the router doesn't have a route back to that source IP via the same interface it arrived on, it assumes the packet is spoofed and drops it.
 
 ```text
@@ -355,7 +355,7 @@ To minimize gaps and maximize router performance, your ACLs need to follow these
 * **Filter in Both Directions (Inbound vs. Outbound)**: Traffic is bidirectional. An inbound ACL filters packets entering the router, while an outbound ACL filters packets exiting toward a target. Each direction requires its own, specific logic.
 
 #### **Standard Enterprise ACL Architecture Matrix**
-A secure internal architecture maps access parameters between your segments. Here is the flow logic for a standard enterprise network:
+A secure internal architecture maps access parameters between your segments. Here's the flow logic for a standard enterprise network:
 
 | Source Segment | Destination Segment | Permitted Protocols & Ports | Traffic Direction | Security Objective |
 | --- | --- | --- | --- | --- |
@@ -365,7 +365,7 @@ A secure internal architecture maps access parameters between your segments. Her
 | Any Segment | Router Infrastructure | UDP 123 (NTP), UDP 514 (Syslog) | Inbound on Local Interface | Limit interactions to core sync and telemetry services. |
 
 #### **Production Configuration Blueprint (Cisco IOS-XE)**
-Here is how to configure and apply an Extended Named ACL to isolate an employee workstation segment while allowing controlled server access.
+Here's how to configure and apply an Extended Named ACL to isolate an employee workstation segment while allowing controlled server access.
 1. **Constructing the Named Extended ACL**
 
 ```text
@@ -604,7 +604,7 @@ configuration mode exclusive auto
 #### **AAA Server Concurrency Controls**
 In enterprise environments, you should enforce these controls via centralized platforms like Cisco ISE or Aruba ClearPass.
 * **Max-Sessions Per User**: Restricts a specific username to a set number of concurrent logins across the entire fabric. If an admin is logged into one switch, they can't log in elsewhere with the same account.
-* **Session-Timeout (Absolute)**: Enforces a hard stop—like 60 or 120 minutes—forcing re-authentication and MFA checks regardless of active typing.
+* **Session-Timeout (Absolute)**: Enforces a hard stop, like 60 or 120 minutes, forcing re-authentication and MFA checks regardless of active typing.
 
 #### **Session Control Parameter Matrix**
 
@@ -832,7 +832,7 @@ Enforcing a centralized baseline ensures that every switch, router, and firewall
 An enterprise-grade baseline must strip away non-essential capabilities and enforce uniform identity, management, and defensive controls.
 * **Minimal Functionality**: Disable every protocol, feature, and physical port that doesn't serve an active business purpose, like HTTP or unneeded routing daemons.
 * **Uniform Management Separation**: Force all devices to use identical management configs, such as pointing to the same Centralized AAA servers, utilizing the same OOB VRFs, and logging to the same SIEM collectors.
-* **Cryptographic Consistency**: Mandate strict encryption baselines globally, ensuring that weak algorithms—like MD5, SHA-1, or RSA keys below 3072 bits—are systematically banned.
+* **Cryptographic Consistency**: Mandate strict encryption baselines globally, ensuring that weak algorithms, like MD5, SHA-1, or RSA keys below 3072 bits, are systematically banned.
 
 #### **Structural Framework of a Network Baseline**
 Organize your gold standard configuration document into modular segments. This allows you to update specific security policies without rewriting the entire core template.
@@ -899,7 +899,7 @@ Automating this layer treats configuration code as a continually verifiable asse
 Automated auditing transforms security enforcement into a closed-loop engineering process. Rather than relying on human diligence, the network is monitored against an unyielding source of truth.
 * **Define Rules as Code**: Hardware baselines are translated into machine-readable conditional expressions or validation regular expressions (Regex).
 * **Continuous Device Polling**: Automated compliance systems pull active configurations securely via SSH or APIs on a scheduled basis.
-* **Algorithmic Parser Matching**: System states are compared line-by-line to check for presence, absence, and specific code line order—which is critical for firewalls and ACLs.
+* **Algorithmic Parser Matching**: System states are compared line-by-line to check for presence, absence, and specific code line order; which is critical for firewalls and ACLs.
 * **Exceptions and Alerts**: Non-compliant changes automatically spin up notifications within the Security Operations Center (SOC) or programmatically inject tickets into IT Service Management (ITSM) tools like ServiceNow.
 
 #### Comparison Matrix: Enterprise vs. Open-Source Auditing Tools
@@ -963,7 +963,7 @@ Updating network infrastructure requires handling low-level hardware dependencie
 * **Vulnerability Tracking**: Cross-reference your hardware inventory against vendor security advisories and the [CISA Known Exploited Vulnerabilities (KEV) Catalog](https://www.cisa.gov/known-exploited-vulnerabilities-catalog).
 * **Cryptographic Integrity Validation**: Validate image signatures before transferring binary payloads onto production file systems to neutralize supply-chain injection.
 * **Sandbox and Canary Testing**: Deploy updates onto staging hardware replicas to screen for routing protocol degradation, memory leaks, or performance anomalies.
-* **Staggered Production Reloading**: Apply changes across high-availability fabrics progressively—updating secondary firewall peers first—to prevent localized processing blackholes.
+* **Staggered Production Reloading**: Apply changes across high-availability fabrics progressively, updating secondary firewall peers first, to prevent localized processing blackholes.
 
 #### Hardware-Level Image Validation Blueprint (Cisco IOS-XE)
 To guarantee a firmware file hasn't been altered by a MitM attack or corrupted during transit, use cryptographic hash validation.
