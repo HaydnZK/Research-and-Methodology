@@ -24,7 +24,7 @@ This level is the absolute minimum for any cybersecurity company that does busin
 Level One covers 17 practices, which were directly born from the 15 basic safeguarding requirements that the FAR (Federal Acquisition Regulation) Clause 52.204-21 consists of. These were split into six core domains, which are:
 * **Access Control (AC)**: Restricting system access to authorized corporate users. It covers controlling who logs into your network, limiting internal data flow, and tracking device connections.
 * **Identification and Authentication (IA)**: Verifying the identity of users and devices before granting entry. This means unique user IDs, strong passwords, and proper authentication processes.
-* **Media Protection (MP)**: Sanitizing or physically destroying old storage media (like USB drives or hard disks) before disposal so that FCI cannot be recovered.
+* **Media Protection (MP)**: Sanitizing or physically destroying old storage media (like USB drives or hard disks) before disposal so that FCI can't be recovered.
 * **Physical Protection (PE)**: Keeping unauthorized people away from physical server rooms, desks, and equipment. This requires escorting visitors, maintaining physical visitor logs, and securing facilities.
 * **System and Communications Protection (SC)**: Securing the boundaries of your network. This requires implementing firewalls and separating your public-facing web presence from internal systems where contract data lives.
 * **System and Information Integrity (SI)**: Monitoring and fixing system flaws. This includes installing anti-malware protection, updating software patches, and rapidly fixing system bugs.
@@ -405,13 +405,13 @@ The primary philosophy of this domain is to establish complete control and visib
 #### **Core Operational Pillars**
 The 9 requirements within this family are grouped into three primary operational areas:
 * **Baseline Configurations**: You must create and maintain documented blueprints (baselines) for all types of systems in your environment, such as standard laptops, firewalls, and cloud servers. These baselines establish standard security settings, approved software lists, and required encryption types.
-* **Change Control and Governance**: Changes to systems cannot happen on a whim. Any modification to your infrastructure, such as upgrading a core software application or editing firewall rules, must follow a formal process: request, review, approve, test, and document.
+* **Change Control and Governance**: Changes to systems can't happen on a whim. Any modification to your infrastructure, such as upgrading a core software application or editing firewall rules, must follow a formal process: request, review, approve, test, and document.
 * **Least Functionality (System Hardening)**: Your systems must be configured to do only what is necessary for business operations. This requires disabling or removing unnecessary software, protocols, apps, and physical ports, such as blocking USB mass storage devices, to shrink the network's attack surface.
 
 #### **Critical Technical Controls**
 Failing to implement these controls triggers severe -3 and -5 point deductions in your SPRS score. The high-value technical requirements include:
 * **Establish Baseline Configurations (3.4.1)**: Developing a formal System Security Plan (SSP) attachment or registry that explicitly lists the approved operating systems, patch levels, and configuration settings for all CUI-handling devices.
-* **Enforce Least Functionality (3.4.6 / 3.4.7)**: Configuring systems to automatically block unapproved software execution (application whitelisting) and restricting user rights so standard employees cannot install unapproved apps or browser extensions.
+* **Enforce Least Functionality (3.4.6 / 3.4.7)**: Configuring systems to automatically block unapproved software execution (application whitelisting) and restricting user rights so standard employees can't install unapproved apps or browser extensions.
 * **Restricting User-Installed Software (3.4.8)**: Enforcing strict software policies and technical blocks preventing non-administrative users from installing any software on machines that process or store CUI.
 
 #### **What Auditors Look For (Evidence Collection)**
@@ -453,7 +453,7 @@ The core philosophy of this domain is preparedness and swift containment. CMMC a
 #### **Core Operational Pillars**
 The 3 requirements within this family are grouped into three primary operational areas:
 * **Incident Handling Capability**: Establishing a structured operational lifecycle for security events. This lifecycle must cover four distinct phases: Preparation (tools and policies), Detection and Analysis (spotting a breach), Containment and Eradication (stopping and removing the hacker), and Recovery (restoring clean backups safely).
-* **Incident Testing and Simulations**: Your incident response plan cannot simply sit on a shelf as a theoretical document. You don't want to wait for a real breach to discover a flaw in your strategy, so you must regularly run your team through realistic cyberattack simulations to ensure everyone knows exactly how to react during a live emergency.
+* **Incident Testing and Simulations**: Your incident response plan can't simply sit on a shelf as a theoretical document. You don't want to wait for a real breach to discover a flaw in your strategy, so you must regularly run your team through realistic cyberattack simulations to ensure everyone knows exactly how to react during a live emergency.
 * **Federal Reporting Compliance**: Establishing a direct operational bridge to the Department of Defense. When an incident occurs, you're legally obligated to report specific technical details to federal authorities within rigid, non-negotiable time windows.
 
 #### **Critical Technical Controls**
@@ -478,7 +478,7 @@ The core philosophy of this domain is preventing backdoors during system updates
 The 6 requirements within this family are grouped into three primary operational areas:
 * **Maintenance Governance and Logging**: You must formally schedule and log all hardware and software maintenance. The system logs must document the date, time, the name of the technician, the specific equipment serviced, and a detailed description of the repairs.
 * **Technician Identity and Tools**: This covers vetting the people and tools entering your network. Anyone performing maintenance must be uniquely identified and authenticated. Furthermore, any diagnostic equipment or software tools brought on-site by a technician must be scanned for malicious code before they're allowed to connect to your network.
-* **Remote Maintenance Controls**: Remote administration is a massive attack vector. If a software vendor needs a remote desktop session to troubleshoot a system containing CUI, that session cannot remain open indefinitely. It's got to be explicitly authorized, heavily encrypted, closely monitored, and completely terminated the moment the work is finished.
+* **Remote Maintenance Controls**: Remote administration is a massive attack vector. If a software vendor needs a remote desktop session to troubleshoot a system containing CUI, that session can't remain open indefinitely. It's got to be explicitly authorized, heavily encrypted, closely monitored, and completely terminated the moment the work is finished.
 
 #### **Critical Technical Controls**
 Failing to implement these maintenance boundaries triggers severe -3 and -5 point deductions in your SPRS score. The high-value technical requirements include:
@@ -502,7 +502,7 @@ The core philosophy of this domain is to secure data outside the network cables.
 The 9 requirements within this family are grouped into three primary operational areas:
 * **Media Access and Storage**: You must restrict access to media containing CUI only to authorized individuals. This requires keeping digital and paper media locked away in secure containers, safes, or restricted rooms when not in use.
 * **Media Transport and Tracking**: If media containing CUI must leave your physical facility, such as shipping a backup tape to an off-site vault or an engineer driving to a job site with a laptop, the transit must be tightly controlled. This requires using secure couriers, maintaining chain-of-custody tracking logs, and strictly encrypting all digital contents.
-* **Media Sanitization and Disposal**: You cannot simply throw old computers, hard drives, or printed papers into a standard trash or recycling bin. Media must be rendered completely unrecoverable through formal sanitization methods like degaussing or physical shredding before being disposed of or reused outside the CUI environment.
+* **Media Sanitization and Disposal**: You can't simply throw old computers, hard drives, or printed papers into a standard trash or recycling bin. Media must be rendered completely unrecoverable through formal sanitization methods like degaussing or physical shredding before being disposed of or reused outside the CUI environment.
 
 #### **Critical Technical Controls**
 Missing a critical control in this family results in a severe -3 or -5 point deduction in your SPRS score. The high-value technical requirements include:
@@ -560,7 +560,7 @@ Failing to implement physical boundaries triggers severe -3 and -5 point deducti
 C3PAO auditors will physically tour your facilities to test your Physical Protection compliance. They'll use a combination of direct observation and system checks:
 * **Examine**: The auditor will review your written Physical Security Policy, historical visitor sign-in logs, and your active list of employees who have badge access to your server room.
 * **Interview**: They'll interview your receptionist, security guards, facilities manager, and standard employees, asking them what the exact procedure is if a delivery person asks to use the restroom inside the secure work area.
-* **Test**: The auditor will conduct a live physical test. They'll walk up to your server room door to see if it is locked, check if keys are left unattended, and inspect window orientations to ensure a passerby cannot look through a window to see CUI blueprints. They may even intentionally try to tailgate, walking through an open door right behind an employee without scanning a badge, to see if your staff stops and challenges them.
+* **Test**: The auditor will conduct a live physical test. They'll walk up to your server room door to see if it is locked, check if keys are left unattended, and inspect window orientations to ensure a passerby can't look through a window to see CUI blueprints. They may even intentionally try to tailgate, walking through an open door right behind an employee without scanning a badge, to see if your staff stops and challenges them.
 
 
 ### Risk Assessment (RA)
@@ -576,7 +576,7 @@ The 3 requirements within this family are grouped into two primary operational a
 #### **Critical Technical Controls**
 Failing to implement these proactive hunting mechanisms triggers severe -3 and -5 point deductions in your SPRS score. The core requirements include:
 * **Scanning for Vulnerabilities (3.11.2)**: Deploying enterprise-grade scanning software to perform automated, regular scans of your scoped network. You must configure these tools to check for specific known vulnerabilities like CVEs and misconfigurations.
-* **Remediating Discovered Flaws (3.11.3)**: You cannot let vulnerability scan reports collect dust. This control mandates that you actively resolve or mitigate the discovered risks, such as applying security patches or updating configurations, in accordance with a strict corporate risk prioritization timeline.
+* **Remediating Discovered Flaws (3.11.3)**: You can't let vulnerability scan reports collect dust. This control mandates that you actively resolve or mitigate the discovered risks, such as applying security patches or updating configurations, in accordance with a strict corporate risk prioritization timeline.
 * **Defining Operational Risks (3.11.1)**: Periodically assessing organizational risks resulting from the operation of your system. This means mapping out how human threats like insiders, environmental threats like natural disasters, and cyber threats interact with your specific corporate architecture.
 
 #### **What Auditors Look For (Evidence Collection)**
@@ -594,7 +594,7 @@ The core philosophy of this domain is continuous validation and self-auditing. W
 #### **Core Operational Pillars**
 The 4 requirements within this family are grouped into three primary operational areas:
 * **The System Security Plan (SSP)**: You must create and continuously maintain a master, living technical document that details every server, software, network boundary, and policy used to protect Controlled Unclassified Information (CUI).
-* **Continuous Control Monitoring**: You cannot wait for a C3PAO auditor to find a broken setting. You must establish a regular internal review schedule to test your own controls, such as verifying quarterly that your firewalls are still blocking unauthorized ports.
+* **Continuous Control Monitoring**: You can't wait for a C3PAO auditor to find a broken setting. You must establish a regular internal review schedule to test your own controls, such as verifying quarterly that your firewalls are still blocking unauthorized ports.
 * **Plan of Action and Milestones (POA&M) Management**: When your internal testing reveals a security gap, you must formally track it. This requires documenting what the flaw is, who is responsible for fixing it, what resources are needed, and the exact deadline for remediation.
 
 #### **Critical Technical Controls**
@@ -652,7 +652,7 @@ Failing to implement these live defensive mechanisms triggers severe -3 and -5 p
 * **Monitoring Inbound and Outbound Traffic (3.14.6)**: Actively checking system communications to catch unauthorized transfers of Controlled Unclassified Information (CUI). This often requires configuring Intrusion Detection Systems (IDS) or Endpoint Data Loss Prevention (DLP) tools.
 
 #### **What Auditors Look For (Evidence Collection)**
-C3PAO auditors recognize that system integrity cannot be faked with documentation alone. They'll track your active operational history to ensure defenses are functioning continuously:
+C3PAO auditors recognize that system integrity can't be faked with documentation alone. They'll track your active operational history to ensure defenses are functioning continuously:
 * **Examine**: The auditor will review your written Patch Management Policy, Endpoint Protection configurations, historical alert logs, and system update registries.
 * **Interview**: They'll interview your security operations center (SOC) analysts or your Managed Service Provider (MSP) engineers, asking how they respond to a virus alert or handle a failed software patch.
 * **Test**: The auditor will perform live technical validation. They'll pick a random workstation and check its active patch history to verify it has received the most recent critical security updates. They'll also attempt to download a safe, simulated testing string, like the industry-standard EICAR malware test file, to ensure your anti-malware system instantly blocks, quarantines, and logs the execution attempt.
