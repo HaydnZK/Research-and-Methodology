@@ -221,9 +221,9 @@ To verify an alert, analysts cross-examine the initial trigger against complemen
 
 | Initial Alert Trigger | Benign Anomaly Scenario | True Positive Indicators |
 |---|---|---|
-| `EDR`: `PowerShell` Script Execution | A DevOps engineer running a newly deployed local automation script for software patching. | • Parent process is a web browser or Microsoft Word (`msword.exe`).<br>• Script includes obfuscated `base64` commands or attempts to clear system logs. |
-| `SIEM`: Late-Night Login from New IP | A corporate executive connecting from a hotel Wi-Fi network while traveling on business. | • Instantaneous lateral movement attempts, like executing `net view` or scanning ports.<br>• Concurrent failed logins to separate internal servers. |
-| NOC: Outbound Traffic Bandwidth Spike | A system administrator running a scheduled weekly database backup to an off-site cloud storage bucket. | • Traffic destination matches a known open proxy or an unclassified domain.<br>• Endpoint process initiating the upload is an unauthorized utility, like `rclone.exe`. |
+| `EDR`: `PowerShell` Script Execution | A DevOps engineer running a newly deployed local automation script for software patching. | Parent process is a web browser or Microsoft Word (`msword.exe`).<br><br>Script includes obfuscated `base64` commands or attempts to clear system logs. |
+| `SIEM`: Late-Night Login from New IP | A corporate executive connecting from a hotel Wi-Fi network while traveling on business. | Instantaneous lateral movement attempts, like executing `net view` or scanning ports.<br><br>Concurrent failed logins to separate internal servers. |
+| NOC: Outbound Traffic Bandwidth Spike | A system administrator running a scheduled weekly database backup to an off-site cloud storage bucket. | Traffic destination matches a known open proxy or an unclassified domain.<br><br>Endpoint process initiating the upload is an unauthorized utility, like `rclone.exe`. |
 
 #### **Deep-Dive Forensic Verification Techniques**
 When evaluating an ambiguous alert, Tier 1 and Tier 2 analysts rely on three core technical verification steps to pivot across telemetry sources:
