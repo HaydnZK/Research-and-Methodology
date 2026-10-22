@@ -72,6 +72,7 @@ When the PHP engine attempts to access or cleanly destroy the old pointer, it re
 </details>
 
 
+<details>
 <summary>CVE-2026-109619</summary>
 ### The Vulnerability
 CVE-2026-109619 is a critical unauthenticated remote code execution (RCE) and information disclosure vulnerability in the PHP core engine. While its twin flaw (618) exploits a Use-After-Free condition in the memory allocator, 619 centers on a Persistent Uninitialized Global State condition triggered during emergency execution bailouts.
