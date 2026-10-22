@@ -36,6 +36,7 @@ Major Linux distributions like AlmaLinux, Red Hat, and Ubuntu also rapidly backp
 
 <details>
 <summary>CVE-2026-109618</summary>
+
 ### The Vulnerability
 CVE-2026-109618 is a critical unauthenticated remote code execution (RCE) vulnerability in the PHP core engine that centers on a Use-After-Free (UAF) condition during fatal memory exhaustion errors. The flaw stems from a breakdown in how PHP’s Zend Engine manages its internal memory manager (zend_alloc) and persistent memory allocations when a script hits the application's memory_limit threshold.
 
@@ -74,6 +75,7 @@ When the PHP engine attempts to access or cleanly destroy the old pointer, it re
 
 <details>
 <summary>CVE-2026-109619</summary>
+
 ### The Vulnerability
 CVE-2026-109619 is a critical unauthenticated remote code execution (RCE) and information disclosure vulnerability in the PHP core engine. While its twin flaw (618) exploits a Use-After-Free condition in the memory allocator, 619 centers on a Persistent Uninitialized Global State condition triggered during emergency execution bailouts.
 
@@ -124,6 +126,7 @@ The technical scope of CVE-2026-109618 and CVE-2026-109619 encompasses virtually
 
 <details>
 <summary>CVE-2026-109618</summary>
+
 #### **Affected Architectures**
 The vulnerability of an environment to CVE-2026-109618 depends heavily on how the underlying web server architecture manages the lifecycle of its PHP runtime. Because the Use-After-Free condition relies on a dangling pointer surviving a script crash to poison a subsequent request, the flaw is inherently tied to persistent process execution models.
 1. **Highly Vulnerable Architectures: Persistent Process Environments**: For the exploit to succeed, the same physical operating system process thread that handled the initial poisoning request must immediately pick up the hijack request. Two dominant enterprise server architectures natively facilitate this behavior.
@@ -188,6 +191,7 @@ In the context of CVE-2026-109618, embedded risk refers to how deeply intertwine
 
 <details>
 <summary>CVE-2026-109619</summary>
+
 #### **Affected Architectures**
 The structural vulnerability of an environment to CVE-2026-109619 is heavily dictated by how a web server manages the lifecycle and isolation of its PHP worker processes. Because this specific flaw relies on a persistent uninitialized global state, the exploit requires a poisoned global tracking structure (such as `compiler_globals` or `executor_globals`) to remain dirty and be inherited by a subsequent web request.
 1. **Highly Vulnerable Architectures: Long-Lived, Reused Execution Pools**: The primary requirement for a successful 619 attack is process reuse. If a PHP interpreter thread handles sequential HTTP requests without being completely torn down and rebuilt by the operating system, it's vulnerable.
@@ -253,6 +257,7 @@ Detection engineering and threat hunting for the php2shell vulnerabilities requi
 
 <details>
 <summary>CVE-2026-109618</summary>
+
 #### **Log Sources & Telemetry**
 To successfully detect or hunt for exploitation attempts targeting CVE-2026-109618, you can't rely on network-layer signatures alone. Because the exploit relies on raw physical memory corruption, your telemetry strategy must cross-reference application execution states with operating system process behaviors. For a Security Operations Center (SOC), the primary telemetry data is divided into two main categories: Application/Web Logs and Host-Level Process Telemetry (EDR/Sysmon).
 1. **Application & Web Server Log Sources (The Footprint)**: The exploitation lifecycle of 618 leaves a distinct, chronological trail across multiple web logs. To map the two-stage attack pipeline, you must ingest and correlate three primary log sources.
@@ -410,6 +415,7 @@ Trigger: Immediately on match
 
 <details>
 <summary>CVE-2026-109619</summary>
+
 #### **Log Sources & Telemetry**
 To successfully detect or hunt for exploitation attempts targeting CVE-2026-109619, your detection strategy must shift from tracking physical crashes to identifying anomalous logical state transfers and silent data exfiltration. Because 619 manipulates the logical variables and output buffers of the Zend Engine rather than physical heap slots, a successful exploit won't cause a process crash (`Segmentation Fault`). Instead, the worker process handles the transaction seamlessly, meaning your detection relies almost entirely on tracking application-layer anomalies and host behavior.
 1. **Application & Web Server Log Sources (The Blueprint)**: The two-stage exploitation pipeline of 619 relies on state inheritance across sequential HTTP requests handled by the same persistent worker threat.
@@ -564,6 +570,7 @@ The mitigation and remediation roadmap for the php2shell vulnerabilities require
 
 <details>
 <summary>CVE-2026-109618</summary>
+
 #### **Immediate Patching Targets**
 For CVE-2026-109618, the primary and only definitive remediation path is upgrading the underlying PHP runtime engine. Because the flaw is a physical Use-After-Free (UAF) condition embedded within the core Zend Memory Manager (`zend_alloc.c`), application-layer modifications or code updates won't resolve the defect. When mapping out emergency patching workflows for your infrastructure, security and operations teams must prioritize upgrades across all active production environments according to the official upstream releases.
 1. **Upstream PHP Engine Patches (Primary Targets)**: The PHP Foundation released emergency micro-releases across all actively supported branches on October 21, 2026. To remediate CVE-2026-109618 completely, systems must be upgraded to or past the following baseline versions:
@@ -689,6 +696,7 @@ trivy image --severity CRITICAL <registry-url>/webapp:latest
 
 <details>
 <summary>CVE-2026-109619</summary>
+
 #### **Immediate Patching Targets**
 For CVE-2026-109619, just like its twin flaw, the primary and only definitive remediation path is upgrading the underlying PHP runtime engine. Because this defect involves a logical failure where the Zend Engine skips pointer sanitization for global structures (`compiler_globals` and `executor_globals`) during an emergency `longjmp` bailout, application-layer code modifications or framework security updates can't fix the underlying issue. To secure your enterprise footprint against the uninitialized global state leak, patching schedules must focus on upgrading production engines to the exact official upstream releases or verified enterprise backports.
 1. **Upstream PHP Engine Patches (Primary Targets)**: The PHP Foundation released emergency micro-releases to address CVE-2026-109619 simultaneously with 618. To eliminate the state-retention vulnerability completely, your runtimes must be upgraded to or past the following baseline micro-versions:
