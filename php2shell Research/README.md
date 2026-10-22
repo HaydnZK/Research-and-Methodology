@@ -186,6 +186,7 @@ In the context of CVE-2026-109618, embedded risk refers to how deeply intertwine
 * **Silent Failure Visibility**: Because a successful exploit cleanly hijacks control flow without necessarily crashing the worker process instantly, standard endpoint detection and response (EDR) agents that look for anomalous binary spawns may miss the in-memory execution entirely, allowing an attacker to establish long-term, stealthy persistence on the target server.
 </details>
 
+<details>
 <summary>CVE-2026-109619</summary>
 #### **Affected Architectures**
 The structural vulnerability of an environment to CVE-2026-109619 is heavily dictated by how a web server manages the lifecycle and isolation of its PHP worker processes. Because this specific flaw relies on a persistent uninitialized global state, the exploit requires a poisoned global tracking structure (such as `compiler_globals` or `executor_globals`) to remain dirty and be inherited by a subsequent web request.
@@ -407,6 +408,7 @@ Trigger: Immediately on match
 ```
 </details>
 
+<details>
 <summary>CVE-2026-109619</summary>
 #### **Log Sources & Telemetry**
 To successfully detect or hunt for exploitation attempts targeting CVE-2026-109619, your detection strategy must shift from tracking physical crashes to identifying anomalous logical state transfers and silent data exfiltration. Because 619 manipulates the logical variables and output buffers of the Zend Engine rather than physical heap slots, a successful exploit won't cause a process crash (`Segmentation Fault`). Instead, the worker process handles the transaction seamlessly, meaning your detection relies almost entirely on tracking application-layer anomalies and host behavior.
@@ -685,6 +687,7 @@ trivy image --severity CRITICAL <registry-url>/webapp:latest
 * **Tier 3: Low Exposure (Monitored)**: Command-line PHP daemons, cron utilities, or short-lived serverless tasks that don't utilize persistent worker pools.
 </details>
 
+<details>
 <summary>CVE-2026-109619</summary>
 #### **Immediate Patching Targets**
 For CVE-2026-109619, just like its twin flaw, the primary and only definitive remediation path is upgrading the underlying PHP runtime engine. Because this defect involves a logical failure where the Zend Engine skips pointer sanitization for global structures (`compiler_globals` and `executor_globals`) during an emergency `longjmp` bailout, application-layer code modifications or framework security updates can't fix the underlying issue. To secure your enterprise footprint against the uninitialized global state leak, patching schedules must focus on upgrading production engines to the exact official upstream releases or verified enterprise backports.
